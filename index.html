@@ -1,33 +1,108 @@
+
+<!-- DOCTYPE HTML -->
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello React!</title>
-    <!-- SERVE JS -->
-    <!-- JS DELIVER -->
-    <script src="https://cdn.jsdelivr.net/react/0.14.7/react.js"></script>
-    <!-- The core React library -->
-    <script src="https://cdn.jsdelivr.net/react/0.14.7/react-dom-server.js"></script>
-    <!-- The ReactDOM Library -->
-    <script src="https://cdn.jsdelivr.net/react/0.14.7/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-  </head>
-  <body>
-    <div id="example"></div>
-    <ul id="list"></ul>
-    <li id="list-view"></li>
-    <script type="text/babel">
-      ReactDOM.render(
-        <h1>Hello, world!</h1>,
-        document.getElementById('example')
+<head>
+<title>Todo app</title>
+</head>
+<body>
+<div id="content"></div>
+<script src="https://fb.me/react-with-addons-0.13.3.js"></script>
+<script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
+<script type="text/jsx">
+
+var DATA = {    
+    name: 'Greg Pfaff',
+    title: 'Learning React',
+    imgURL: 'http://2.bp.blogspot.com/-KWEJ_XhxP7M/U49z2XpRVCI/AAAAAAAAAQg/Lg-SQtbbGpw/s1600/homer.jpg',
+    hobbyList: ['coding', 'fitness', 'learning react']
+}
+
+var App = React.createClass({
+    render: function(){
+        return (
+            <div>
+                <Profile 
+                    name={this.props.profileData.name}
+                    imgURL={this.props.profileData.imgURL}/>
+                <Title 
+                    title={this.props.profileData.title} />
+                <Hobbies
+                    hobbyList={this.props.profileData.hobbyList} />
+            </div>
+        );
+    }
+});
+
+var Profile = React.createClass({
+    render: function(){
+        return (
+            <div>              
+                <h3>{this.props.name}</h3>
+                <img src={this.props.imgURL} />
+            </div>
+        );
+    }
+});
+
+var Title = React.createClass({
+    render: function() {
+      return (
+        <div>
+            <h1>{this.props.title}</h1>
+        </div>
       );
-      ReactDOM.render(
-        <ul>React List for Learning</ul>,
-        document.getElementById('list')
+    }
+});
+
+var Hobbies = React.createClass({
+    render: function(){
+        var hobbies = this.props.hobbyList.map(function(hobby, index){
+            return (<li key={index}>{hobby}</li>);
+        });
+
+        return (
+            <div>
+                <h5>My hobbies:</h5>
+                <ul>
+                    {hobbies}
+                </ul>
+            </div>
+        );
+    }
+});
+var clicker = React.createClass({
+    getInitialState: function() {
+        return {count: 0};
+    },
+    handleClick: function() {
+      this.setState({count: this.state.count + 1});
+    },
+    render: function() {
+      return React.DOM.a(
+        {onClick: this.handleClick},
+        'You have clicked ' + this.state.count + ' times'
       );
-      ReactDOM.render(
-        <li>Injecting HTML via JSX </li>,
-        document.getElementById('list-view')
+    }
+});
+
+React.render(<App profileData={DATA} />, document.getElementById('content'));
+</script>
+<!-- <script> 
+
+var clicker = React.createClass({
+    getInitialState: function() {
+        return {count: 0};
+    },
+    handleClick: function() {
+      this.setState({count: this.state.count + 1});
+    },
+    render: function() {
+      return React.DOM.a(
+        {onClick: this.handleClick},
+        'You have clicked ' + this.state.count + ' times'
       );
-    </script>
-  </body>
+    }
+});
+React.renderComponent(clicker(), document.getElementById('content'));
+</script> -->
 </html>
